@@ -32,6 +32,7 @@ struct LCDView: View {
                     }
                 }
                 .frame(width: large ? 118 : 76)
+                .frame(maxHeight: large ? 96 : 64)
                 .accessibilityHidden(true)
 
                 VStack(alignment: .leading, spacing: 2) {
@@ -40,17 +41,22 @@ struct LCDView: View {
                         .foregroundStyle(Theme.lcd)
                         .lineLimit(1)
                         .minimumScaleFactor(0.5)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                     if large {
                         Text(detail(for: preset))
                             .font(GFont.pixel(18))
                             .foregroundStyle(Theme.lcdMid)
                             .lineLimit(1)
+                            .minimumScaleFactor(0.7)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                     }
                     Spacer(minLength: 0)
                     ScopeView(model: model)
                         .frame(height: large ? 30 : 24)
                 }
+                .frame(maxHeight: large ? 96 : 64)
             }
+            .frame(maxHeight: .infinity, alignment: .bottom)
         }
         .padding(.horizontal, large ? 14 : 12)
         .padding(.vertical, large ? 12 : 8)
@@ -89,7 +95,7 @@ struct ScopeView: View {
                 var path = Path()
                 for (i, s) in samples.enumerated() {
                     let x = size.width * CGFloat(i) / CGFloat(max(1, samples.count - 1))
-                    let y = size.height / 2 - CGFloat(s) * size.height * 0.48
+                    let y = size.height / 2 - max(-1, min(1, CGFloat(s) * 2.5)) * size.height * 0.48
                     if i == 0 { path.move(to: CGPoint(x: x, y: y)) } else { path.addLine(to: CGPoint(x: x, y: y)) }
                 }
                 ctx.stroke(path, with: .color(Theme.lcdMid), lineWidth: 1.5)

@@ -88,7 +88,7 @@ struct TallLayout: View {
         let headerH: CGFloat = roomy ? 56 : 44
         let knobSize = min(56, max(30, inner / 8 - 12))
         let knobBlockH = knobSize * 1.14 + (knobSize < 44 ? 34 : 40)
-        let lcdH = min(roomy ? 190 : 150, max(84, H * 0.12))
+        let lcdH = min(roomy ? 190 : 150, max(106, H * 0.135))
         let rest = max(200, H - headerH - lcdH - knobBlockH - spacing * 4 - 8)
         let padsH = rest * 0.55
         let seqH = rest - padsH
@@ -135,7 +135,7 @@ struct TallSequencer: View {
     var body: some View {
         let headerH: CGFloat = 30
         let rowGap: CGFloat = 6
-        let rowH = max(26, min(56, (height - 20 - headerH - rowGap * 4) / 4))
+        let rowH = max(26, min(allSteps ? 76 : 56, (height - 20 - headerH - rowGap * 4) / 4))
         let chipW: CGFloat = allSteps ? 130 : 76
         let range = allSteps ? 0..<16 : (model.stepPage * 8)..<(model.stepPage * 8 + 8)
 
@@ -191,7 +191,7 @@ struct PageSwitch: View {
                     model.stepPage = page
                 } label: {
                     HStack(spacing: 4) {
-                        Text(page == 0 ? "STEPS 1–8" : "9–16")
+                        Text(page == 0 ? "1–8" : "9–16")
                             .font(GFont.bold(12)).tracking(1.2)
                         Circle()
                             .fill(Theme.led)
@@ -343,7 +343,7 @@ struct WideSequencer: View {
         GeometryReader { geo in
             let rowGap: CGFloat = 8
             let headH: CGFloat = 20
-            let rowH = max(30, min(56, (geo.size.height - 24 - headH - rowGap * 4) / 4))
+            let rowH = max(30, min(76, (geo.size.height - 24 - headH - rowGap * 4) / 4))
             VStack(spacing: rowGap) {
                 HStack(spacing: 10) {
                     Text("SEQUENCER")
